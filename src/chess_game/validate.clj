@@ -56,10 +56,6 @@
    :q can-move-queen
    :k can-move-king})
 
-(defn call-move-validation [^String nm & args]
-  (when-let [fun (ns-resolve *ns* (symbol (str "can-move-" nm)))]
-    (apply fun args)))
-
 (defn can-move
   [piece current target]
   ((get can-move-piece (keyword (str/lower-case piece))) current target))
