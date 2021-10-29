@@ -33,7 +33,7 @@
   (let [fen (str/split default-fen #"")]
     (reduce make-array! [[]] fen)))
 
-(defn- get-pieceS
+(defn- get-piece
   [board current]
   (-> board
     (get ,,, (-> :x current))
