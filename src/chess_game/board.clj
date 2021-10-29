@@ -39,12 +39,24 @@
     (get (-> :x current))
     (get (-> :y current))))
 
+(defn- realloc-piece
+  [board current target piece]
+  (let [updated 
+    (update-in board [(:y current)] 
+      (fn [value] 
+        (update-in value [(:x current)] 
+          (fn [value] "x"))))]
+    (update-in updated [(:y target)] 
+      (fn [value] 
+        (update-in value [(:x target)] 
+          (fn [value] piece))))))
+
 (defn move-piece
   [board current target]
   (let [piece (get-piece board current)]
     (if (validate/can-move piece current target)
-      (do (println "ok") true)
-      (do (println "not ok") false))))
+      (do (println (realloc-piece board current target piece)) true)
+      (do (println "not is a valid movement") false))))
 
 (defn make-board
   []
