@@ -33,20 +33,20 @@
   (let [fen (str/split default-fen #"")]
     (reduce make-array! [[]] fen)))
 
-(defn- get-piece
+(defn- get-pieceS
   [board current]
   (-> board
-    (get (-> :x current))
-    (get (-> :y current))))
+    (get ,,, (-> :x current))
+    (get ,,, (-> :y current))))
 
 (defn- realloc-piece
   [board current target piece]
-  (let [updated 
+  (->
     (update-in board [(:y current)] 
       (fn [value] 
         (update-in value [(:x current)] 
-          (fn [value] "x"))))]
-    (update-in updated [(:y target)] 
+          (fn [value] "x"))))
+    (update-in ,,, [(:y target)] 
       (fn [value] 
         (update-in value [(:x target)] 
           (fn [value] piece))))))
