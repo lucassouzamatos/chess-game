@@ -18,10 +18,16 @@
    :bqueen "Q"
    :bking "K"})
 
+(defn- get-diff
+  [current target]
+    {:x (- (-> :x target) (-> :x current))
+     :y (- (-> :y target) (-> :y current))})
+
 (defn- can-move-pawn
   [current target]
     (println "validating pawn...")
-    true) 
+    (let [diff (get-diff current target)]
+      (and (= (:x diff) 0) (= (:y diff) 1))))
 
 (defn- can-move-rook
   [current target]

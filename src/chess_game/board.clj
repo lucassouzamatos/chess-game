@@ -3,7 +3,7 @@
     [clojure.string :as str]
     [chess-game.validate :as validate]))
 
-(def default-fen "rnbqkbnr/3ppppp/ppp5/8/8/8/PPPPPPPP/RNBQKBNR")
+(def default-fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
 
 (defn- parse-int [v]
   (try
@@ -43,7 +43,8 @@
   [board current target]
   (let [piece (get-piece board current)]
     (if (validate/can-move piece current target)
-      (println "ok"))))
+      (do (println "ok") true)
+      (do (println "not ok") false))))
 
 (defn make-board
   []
