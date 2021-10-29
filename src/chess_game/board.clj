@@ -29,17 +29,19 @@
   [prev curr]
   (conj prev "x"))
 
+(defn- update-in-array
+  [value]
+  (let [range-empty (parse-int curr)]
+    (if (not= 0 range-empty)
+      (reduce reduce-empty-values value (range range-empty))
+      (conj value curr))))
+
 (defn- make-array!
   [prev curr]
   (let [last (- (count prev) 1)]
     (if (= "/" curr)
       (conj prev [])
-      (update-in prev [last]
-                 (fn [value]
-                   (let [range-empty (parse-int curr)]
-                     (if (not= 0 range-empty)
-                       (reduce reduce-empty-values value (range range-empty))
-                       (conj value curr))))))))
+      (update-in prev [last] update-in-array))))
 
 (defn board-by-fen
   []
