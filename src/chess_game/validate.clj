@@ -60,7 +60,8 @@
    :n can-move-knight
    :b can-move-bishop
    :q can-move-queen
-   :k can-move-king})
+   :k can-move-king
+   :x (fn [& -] false)})
 
 (defn can-move
   [piece current target]

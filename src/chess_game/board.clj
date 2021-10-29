@@ -1,7 +1,7 @@
 (ns chess-game.board
-  (:require 
-    [clojure.string :as str]
-    [chess-game.validate :as validate]))
+  (:require
+   [clojure.string :as str]
+   [chess-game.validate :as validate]))
 
 (def default-fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
 
@@ -36,27 +36,31 @@
 (defn- get-piece
   [board current]
   (-> board
-    (get ,,, (-> :x current))
-    (get ,,, (-> :y current))))
+      (get ,,, (-> :x current))
+      (get ,,, (-> :y current))))
 
 (defn- realloc-piece
   [board current target piece]
   (->
-    (update-in board [(:y current)] 
-      (fn [value] 
-        (update-in value [(:x current)] 
-          (fn [value] "x"))))
-    (update-in ,,, [(:y target)] 
-      (fn [value] 
-        (update-in value [(:x target)] 
-          (fn [value] piece))))))
+   (update-in board [(:y current)]
+              (fn [value]
+                (update-in value [(:x current)]
+                           (fn [value] "x"))))
+   (update-in ,,, [(:y target)]
+                  (fn [value]
+                    (update-in value [(:x target)]
+                               (fn [value] piece))))))
 
 (defn move-piece
   [board current target]
+  (println board)
   (let [piece (get-piece board current)]
     (if (validate/can-move piece current target)
-      (do (println (realloc-piece board current target piece)) true)
-      (do (println "not is a valid movement") false))))
+      (do
+        (println "is a valid movement")
+        (realloc-piece board current target piece))
+      (do
+        (println "not is a valid movement") board))))
 
 (defn make-board
   []
