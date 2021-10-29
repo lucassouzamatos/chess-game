@@ -1,22 +1,7 @@
 (ns chess-game.board
-  (:require [clojure.string :as str]))
-
-;; pieces are represented by fen
-;; lower case are white pieces
-;; upper case are black pieces
-(def pieces
-  {:wpawn "p"
-   :wrook "r"
-   :wknight "n"
-   :wbishop "b"
-   :wqueen "q"
-   :wking "k"
-   :bpawn "P"
-   :brook "R"
-   :bknight "N"
-   :bbishop "B"
-   :bqueen "Q"
-   :bking "K"})
+  (:require 
+    [clojure.string :as str]
+    [chess-game.validate :as validate]))
 
 (def default-fen "rnbqkbnr/3ppppp/ppp5/8/8/8/PPPPPPPP/RNBQKBNR")
 
@@ -30,7 +15,7 @@
   (conj prev "x"))
 
 (defn- update-in-array
-  [value]
+  [curr value]
   (let [range-empty (parse-int curr)]
     (if (not= 0 range-empty)
       (reduce reduce-empty-values value (range range-empty))
@@ -41,12 +26,24 @@
   (let [last (- (count prev) 1)]
     (if (= "/" curr)
       (conj prev [])
-      (update-in prev [last] update-in-array))))
+      (update-in prev [last] (fn [value] (update-in-array curr value))))))
 
-(defn board-by-fen
+(defn- board-by-fen
   []
   (let [fen (str/split default-fen #"")]
     (reduce make-array! [[]] fen)))
+
+(defn- get-piece
+  [board current]
+  (-> board
+    (get (-> :x current))
+    (get (-> :y current))))
+
+(defn move-piece
+  [board current target]
+  (let [piece (get-piece board current)]
+    (if (validate/can-move piece current target)
+      (println "ok"))))
 
 (defn make-board
   []

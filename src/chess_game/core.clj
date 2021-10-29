@@ -5,4 +5,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (board/make-board)))
+  (let [board (board/make-board)]
+    (board/move-piece board {:x 0 :y 0} {:x 0 :y 0})))
