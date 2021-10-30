@@ -1,5 +1,7 @@
 (ns chess-game.core
-  (:require [chess-game.board :as board])
+  (:require 
+    [chess-game.board :as board]
+    [chess-game.move :as move])
   (:gen-class))
 
 (defn -main
@@ -7,5 +9,5 @@
   [& args]
   (let [board (board/make-board)]
     (doto board
-     (board/move-piece ,,, {:x 1 :y 1} {:x 1 :y 2})
-     (board/move-piece ,,, {:x 1 :y 2} {:x 1 :y 3}))))
+     (move/move-piece ,,, {:x 1 :y 1} {:x 1 :y 2})
+     (move/move-piece ,,, {:x 1 :y 2} {:x 1 :y 3}))))
